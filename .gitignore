@@ -1,0 +1,13 @@
+# calc
+*.o
+bin/
+
+# lldb
+*.dSYM/
+
+# bear
+compile_commands.json
+.cache/
+
+# macos
+.DS_Store
