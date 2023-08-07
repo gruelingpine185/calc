@@ -12,6 +12,11 @@ struct calc_lexer {
 
 
 static int calc_is_whitespace(int _c);
+static int calc_lexer_curr(const calc_lexer* _lexer);
+#if 0
+static int calc_lexer_next(const calc_lexer* _lexer);
+#endif
+static int calc_lexer_advance(calc_lexer* _lexer);
 
 
 static int calc_is_whitespace(int _c) {
@@ -21,6 +26,25 @@ static int calc_is_whitespace(int _c) {
     );
 }
 
+static int calc_lexer_curr(const calc_lexer* _lexer) {
+    assert(_lexer != NULL);
+    return _lexer->buffer[_lexer->offset];
+}
+
+#if 0
+static int calc_lexer_next(const calc_lexer* _lexer) {
+    assert(_lexer != NULL);
+    return _lexer->buffer[_lexer->offset + 1];
+}
+#endif
+
+static int calc_lexer_advance(calc_lexer* _lexer) {
+    assert(_lexer != NULL);
+    if(!calc_lexer_curr(_lexer)) return 0;
+
+    _lexer->offset++;
+    return 1;
+}
 static void calc_lexer_skip_whitespace(calc_lexer* _lexer) {
     do {
         if(!calc_is_whitespace(calc_lexer_curr(_lexer))) return;
