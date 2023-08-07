@@ -1,9 +1,10 @@
-project_name := calc
-project = $(bin_dir)/$(project_name)
 
 inc_dir = inc/$(project_name)
 src_dir := src
 bin_dir := bin
+
+project_name := calc
+project := $(bin_dir)/$(project_name)
 
 main := $(src_dir)/main.c
 headers := $(wildcard $(inc_dir)/*.h)
