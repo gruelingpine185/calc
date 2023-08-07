@@ -131,6 +131,7 @@ static calc_token* calc_lexer_collect_number(calc_lexer* _lexer) {
         return NULL;
     }
 
+    token->len = _lexer->offset - token->offset;
     return token;
 }
 
@@ -154,6 +155,7 @@ static calc_token* calc_lexer_collect_variable(calc_lexer* _lexer) {
         return NULL;
     }
 
+    token->len = _lexer->offset - token->offset;
     return token;
 }
 
@@ -177,6 +179,7 @@ static calc_token* calc_lexer_collect_operator(calc_lexer* _lexer) {
         return NULL;
     }
 
+    token->len = _lexer->offset - token->offset;
     return token;
 
 }
@@ -194,8 +197,8 @@ static calc_token* calc_lexer_collect_separator(calc_lexer* _lexer) {
         return NULL;
     }
 
+    token->len = _lexer->offset - token->offset;
     return token;
-
 }
 
 calc_lexer* calc_create_lexer(const char* _buffer) { 
