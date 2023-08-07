@@ -16,6 +16,7 @@ static int calc_is_locase(int _c);
 static int calc_is_upcase(int _c);
 static int calc_is_variable(int _c);
 static int calc_is_whitespace(int _c);
+static int calc_is_operator(int _c);
 static int calc_lexer_curr(const calc_lexer* _lexer);
 #if 0
 static int calc_lexer_next(const calc_lexer* _lexer);
@@ -25,6 +26,7 @@ static char* calc_lexer_create_lexeme(calc_lexer* _lexer, uint32_t _start);
 static void calc_lexer_skip_whitespace(calc_lexer* _lexer);
 static calc_token* calc_lexer_collect_number(calc_lexer* _lexer);
 static calc_token* calc_lexer_collect_variable(calc_lexer* _lexer);
+static calc_token* calc_lexer_collect_operator(calc_lexer* _lexer);
 
 
 static int calc_is_digit(int _c) {
@@ -47,6 +49,14 @@ static int calc_is_whitespace(int _c) {
     return (
         (_c == '\n') || (_c == '\t') || _c == (_c == '\r') ||
         (_c == ' ')
+    );
+}
+
+static int calc_is_operator(int _c) {
+    return (
+        (_c == '+') || (_c == '-') || (_c == '*') ||
+        (_c == '/') || (_c == '%') || (_c == '^') ||
+        (_c == '=') || (_c == '<') || (_c == '>')
     );
 }
 
@@ -135,6 +145,30 @@ static calc_token* calc_lexer_collect_variable(calc_lexer* _lexer) {
 
     return token;
 }
+
+static calc_token* calc_lexer_collect_operator(calc_lexer* _lexer) {
+    assert(_lexer != NULL);
+    calc_token* token = (calc_token*) malloc(sizeof(*token));
+    if(!token) return NULL;
+
+    token->offset = _lexer->offset;
+
+    do {
+        if(!calc_is_operator(calc_lexer_curr(_lexer))) {
+            token->type = CALC_TOK_TYPE_OPERATOR;
+            break;
+        }
+    } while(calc_lexer_advance(_lexer));
+
+    token->lexeme = calc_lexer_create_lexeme(_lexer, token->offset);
+    if(!token->lexeme) {
+        free(token);
+        return NULL;
+    }
+
+    return token;
+
+}
 calc_lexer* calc_create_lexer(const char* _buffer) { 
     assert(_buffer != NULL);
     calc_lexer* lexer = (calc_lexer*) malloc(sizeof(*lexer));
@@ -155,6 +189,10 @@ calc_token* calc_lexer_lex(calc_lexer* _lexer) {
     assert(_lexer != NULL);
     if(calc_is_whitespace(calc_lexer_curr(_lexer))) {
         calc_lexer_skip_whitespace(_lexer);
+    }
+
+    if(calc_is_operator(calc_lexer_curr(_lexer))) {
+        return calc_lexer_collect_operator(_lexer);
     }
 
     if(calc_is_digit(calc_lexer_curr(_lexer))) {
