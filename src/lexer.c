@@ -17,6 +17,7 @@ static int calc_lexer_curr(const calc_lexer* _lexer);
 static int calc_lexer_next(const calc_lexer* _lexer);
 #endif
 static int calc_lexer_advance(calc_lexer* _lexer);
+static void calc_lexer_skip_whitespace(calc_lexer* _lexer);
 
 
 static int calc_is_whitespace(int _c) {
