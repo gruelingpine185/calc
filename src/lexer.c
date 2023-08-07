@@ -65,7 +65,8 @@ static int calc_is_operator(int _c) {
 static int calc_is_separator(int _c) {
     return (
         (_c == '(') || (_c == ')') || (_c == '[') ||
-        (_c == ']') || (_c == '{') || (_c == '}')
+        (_c == ']') || (_c == '{') || (_c == '}') ||
+        (_c == ',')
     );
 }
 
