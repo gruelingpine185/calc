@@ -13,6 +13,7 @@ extern "C" {
 #endif // __cplusplus
 calc_lexer* calc_create_lexer(const char* _buffer);
 void calc_destroy_lexer(calc_lexer* _lexer);
+calc_token* calc_lexer_lex(calc_lexer* _lexer);
 #ifdef __cplusplus
 }
 #endif // __cplusplus
