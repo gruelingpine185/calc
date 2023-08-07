@@ -1,4 +1,4 @@
-<div align="centered">
+<div align="center">
     <img src="./assets/logo.svg" size="300px"></img>
     <p>A calculator for the terminal</p>
 </div>
