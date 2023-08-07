@@ -8,7 +8,7 @@ bin_dir := bin
 main := $(src_dir)/main.c
 headers := $(wildcard $(inc_dir)/*.h)
 sources := $(wildcard $(src_dir)/*.c)
-objects := $(patsubst $(src_dir)/%.c, $(bin_dir)/*.o, $(sources))
+objects := $(patsubst $(src_dir)/%.c, $(bin_dir)/%.o, $(filter-out $(main), $(sources)))
 
 c_std := -std=c11
 c_opt := -O2
