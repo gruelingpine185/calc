@@ -120,7 +120,7 @@ static calc_token* calc_lexer_collect_number(calc_lexer* _lexer) {
 
     do {
         if(!calc_is_digit(calc_lexer_curr(_lexer))) {
-            token->type = CALC_TOK_TYPE_NUMBER;
+            token->type = CALC_TOK_TYPE_INT;
             break;
         }
     } while(calc_lexer_advance(_lexer));
@@ -144,7 +144,7 @@ static calc_token* calc_lexer_collect_variable(calc_lexer* _lexer) {
 
     do {
         if(!calc_is_variable(calc_lexer_curr(_lexer))) {
-            token->type = CALC_TOK_TYPE_VARIABLE;
+            token->type = CALC_TOK_TYPE_VAR;
             break;
         }
     } while(calc_lexer_advance(_lexer));
@@ -167,10 +167,7 @@ static calc_token* calc_lexer_collect_operator(calc_lexer* _lexer) {
     token->offset = _lexer->offset;
 
     do {
-        if(!calc_is_operator(calc_lexer_curr(_lexer))) {
-            token->type = CALC_TOK_TYPE_OPERATOR;
-            break;
-        }
+        if(!calc_is_operator(calc_lexer_curr(_lexer))) break;
     } while(calc_lexer_advance(_lexer));
 
     token->lexeme = calc_lexer_create_lexeme(_lexer, token->offset);
@@ -180,6 +177,7 @@ static calc_token* calc_lexer_collect_operator(calc_lexer* _lexer) {
     }
 
     token->len = _lexer->offset - token->offset;
+    token->type = calc_get_operator_type(token->lexeme, token->len);
     return token;
 
 }
@@ -190,7 +188,6 @@ static calc_token* calc_lexer_collect_separator(calc_lexer* _lexer) {
     if(!token) return NULL;
 
     token->offset = _lexer->offset;
-    token->type = CALC_TOK_TYPE_SEPARATOR;
     token->lexeme = calc_lexer_create_lexeme(_lexer, token->offset);
     if(!token->lexeme) {
         free(token);
@@ -198,6 +195,7 @@ static calc_token* calc_lexer_collect_separator(calc_lexer* _lexer) {
     }
 
     token->len = _lexer->offset - token->offset;
+    token->type = calc_get_separator_type(token->lexeme, token->len); 
     return token;
 }
 
