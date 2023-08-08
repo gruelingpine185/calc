@@ -9,6 +9,7 @@ typedef struct calc_token calc_token;
 
 
 typedef enum {
+    CALC_TOK_TYPE_EOF,
     CALC_TOK_TYPE_UNKNOWN,  // unknown
     CALC_TOK_TYPE_VAR,      // variable
     CALC_TOK_TYPE_INT,      // integer

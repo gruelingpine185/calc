@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 #include "lexer.h"
-
+#include "token.h"
 
 static void destroy_tok(calc_token* _token);
 
@@ -22,7 +22,12 @@ int main(int _argc, char** _argv) {
 
     calc_token* tok = NULL;
     while((tok = calc_lexer_lex(lexer))) {
-        if(!tok) break;
+        if(tok->type == CALC_TOK_TYPE_EOF) {
+            printf("offset: %u, type: %d, val: EOF\n",
+                tok->offset,
+                tok->type);
+            break;
+        }
 
         printf("offset: %u, type: %d, val: \'%s\'\n",
                 tok->offset,
@@ -31,6 +36,7 @@ int main(int _argc, char** _argv) {
         destroy_tok(tok);
     }
 
+    destroy_tok(tok);
     calc_destroy_lexer(lexer);
     return 0;
 }

@@ -223,6 +223,16 @@ void calc_destroy_lexer(calc_lexer* _lexer) {
 
 calc_token* calc_lexer_lex(calc_lexer* _lexer) {
     assert(_lexer != NULL);
+    if(!calc_lexer_curr(_lexer)) {
+        calc_token* token = (calc_token*) malloc(sizeof(*token));
+        if(!token) return NULL;
+
+        token->type = CALC_TOK_TYPE_EOF;
+        token->offset = _lexer->offset;
+        token->len = 0;
+        return token;
+    }
+
     if(calc_is_whitespace(calc_lexer_curr(_lexer))) {
         calc_lexer_skip_whitespace(_lexer);
     }
