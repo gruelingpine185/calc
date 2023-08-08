@@ -14,6 +14,7 @@ struct calc_lexer {
 static int calc_is_digit(int _c);
 static int calc_is_locase(int _c);
 static int calc_is_upcase(int _c);
+static int calc_is_letter(int _c);
 static int calc_is_variable(int _c);
 static int calc_is_whitespace(int _c);
 static int calc_is_operator(int _c);
@@ -43,8 +44,12 @@ static int calc_is_upcase(int _c) {
     return ((_c >= 'A') && (_c <= 'Z'));
 }
 
-static int calc_is_variable(int _c) {
+static int calc_is_letter(int _c) {
     return (calc_is_upcase(_c) || calc_is_locase(_c));
+}
+
+static int calc_is_variable(int _c) {
+    return calc_is_letter(_c);
 }
 
 static int calc_is_whitespace(int _c) {
