@@ -6,7 +6,7 @@
 
 calc_token_type calc_get_operator_type(const char* _lexeme, uint32_t _len) {
     assert(_lexeme != NULL);
-    assert(_len == 0);
+    assert(_len != 0);
     switch(_len) {
         case 1:
             if(strncmp(_lexeme, "+", _len) == 0) return CALC_TOK_TYPE_PLUS;
@@ -36,7 +36,7 @@ calc_token_type calc_get_operator_type(const char* _lexeme, uint32_t _len) {
 
 calc_token_type calc_get_separator_type(const char* _lexeme, uint32_t _len) {
     assert(_lexeme != NULL);
-    assert(_len == 0);
+    assert(_len != 0);
     switch(_len) {
         case 1:
             if(strncmp(_lexeme, "(", _len) == 0) return CALC_TOK_TYPE_RPAREN;

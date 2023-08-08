@@ -193,6 +193,7 @@ static calc_token* calc_lexer_collect_separator(calc_lexer* _lexer) {
     if(!token) return NULL;
 
     token->offset = _lexer->offset;
+    calc_lexer_advance(_lexer);
     token->lexeme = calc_lexer_create_lexeme(_lexer, token->offset);
     if(!token->lexeme) {
         free(token);
